@@ -1,2 +1,30 @@
 -> Open Source Container Orchestration Tool
 -> Automating the deployment, scaling and deploying containers
+- Self-healing
+    - auto-scaling
+    - auto-restart
+
+CONTAINERS
+- virtualize the underlying OS instead of virtualizing the hardware
+  -> Lightweight and portable
+- Isolated from each other
+  -> separated filesystems
+  -> Limit resources
+
+DECOUPLED SYSTEMS
+- containers are decoupled from the underlying infrastructure and from the host filesystem
+  ( portable across cloud infr.)
+
+MONOLITHIC (?)
+
+MICROSERVICES
+- application are broken into smaller, independent pieces and can be deployed and managed dynamically
+
+KUBERNETES ARCHITECTURE
+- Master/Controller
+
+  -> Minion (1-N) = (Nodes)
+     - Runs DOCKER
+
+     -> PODS (1-N)
+        - Running CONTAINER (1-N)
