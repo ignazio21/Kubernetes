@@ -1,0 +1,28 @@
+# Do the configuration for all Minions #
+
+$ vi /etc/kubernetes/config
+- Modify to:
+KUBE_MASTER="--master=http://centos-master:8080"
+
+- Add:
+KUBE_ETCD_SERVERS="--etcd-servers=http://centos-master:2379"
+
+$ vi /etc/kubernetes/kubelet
+
+KUBELET_ADDRESS="--address=0.0.0.0"
+
+- Uncomment:
+KUBELET_PORT
+
+KUBELET_HOSTNAME="--hostname-override=centos-minion1"
+
+KUBELET_API_SERVER="--api-servers=http://centos-master:8080"
+
+- Comment:
+KUBELET_POD_INFRA_CONTAINER
+
+-> Start services
+
+$systemctl enable kube-proxy kubelet docker
+$systemctl start kube-proxy kubelet docker
+$systemctl status kube-proxy kubelet docker | grep "(running)" | wc -l

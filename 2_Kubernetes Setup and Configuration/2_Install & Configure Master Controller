@@ -1,0 +1,36 @@
+### INTO THE Master ###
+
+-> Configure Kubernetes
+$cd /etc/kubernetes/
+$vim config
+  - Modify to the following:
+  KUBE_MASTER="--master=http://centos-master:8080"
+
+  - Add:
+  KUBE_ETCD_SERVERS="--etcd-servers=http://centos-master:2379"
+
+-> Configure ETCD
+$cd /etc/etcd
+$vim etcd.conf
+# [member]
+- Modify to, this way will listen to ALL interfaces:
+ETCD_LISTEN_CLIENT_URLS="http://0.0.0.0:2379"
+
+#[cluster]
+ETCD_ADVERTISE_CLIENT_URLS="http://0.0.0.0:2379"
+
+-> Configure the API Server file for Kubernetes
+$vi /etc/kubernetes/apiserver
+KUBE_API_ADDRESS="--address=0.0.0.0"
+
+- Uncomment:
+KUBE_API_PORT
+KUBELET_PORT
+
+- Comment:
+KUBE_ADMISSION_CONTROL
+
+- Enable services:
+$systemctl enable etcd kube-apiserver kube-controller-manager kube-scheduler
+$systemctl start etcd kube-apiserver kube-controller-manager kube-scheduler
+$systemctl status etcd kube-apiserver kube-controller-manager kube-scheduler | grep "(running)" | wc -l
