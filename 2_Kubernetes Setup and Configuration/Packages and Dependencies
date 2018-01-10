@@ -1,0 +1,43 @@
+-> 4 Servers Needed
+  - 1 master/controller (Centos)
+  - 3 Minions
+
+- Install NTP in each server
+  - Will help to correlate events
+
+$yum install -y ntp (x4)
+
+$systemctl enable ntpd && systemctl start ntpd && systemctl status ntpd
+
+-> NAME RESOLUTION
+  - Edit the hosts file in every server
+
+  $vi /etc/hosts
+  <min_1_ip> <min_1_hostname>
+  <min_2_ip> <min_2_hostname>
+  <min_3_ip> <min_3_hostname>
+  <master_ip> <master_hostname>
+  
+PACKAGES TO INSTALL
+
+-> Install ETCD
+  - Service Minions are going to register with from a Login perspective
+
+-> KUBERNETES
+  - Docker as dependencies
+
+1. Create a Repo for Docker
+- DO the following in every server (x4)
+
+$vim /etc/yum.repos.d/virt7-docker-common-release.repo
+
+[virt7-docker-common-release]
+name=virt7-docker-common-release
+baseurl=http://cbs.centos.org/repos/virt7-docker-common-release/x86_64/os/
+gpgcheck=0
+
+$yum update
+
+2. Enable the Repo & Install ETCD - Docker - Kubernetes (x4)
+
+$yum install --enablerepo=virt7-docker-common-release etcd kubernetes docker

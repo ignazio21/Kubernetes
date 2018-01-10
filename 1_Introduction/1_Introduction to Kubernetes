@@ -21,10 +21,34 @@ MICROSERVICES
 - application are broken into smaller, independent pieces and can be deployed and managed dynamically
 
 KUBERNETES ARCHITECTURE
-- Master/Controller
+-> Master/Controller
+  - Manage PODS via Labels
+  - Replace a container in a POD if that fails (based on the desired state)
 
   -> Minion (1-N) = (Nodes)
      - Runs DOCKER
 
-     -> PODS (1-N)
+     -> PODS (1-N)  1 Pod - 1 IP Address
+        (This eliminates PORT conflict)
         - Running CONTAINER (1-N)
+
+  -> Labels
+    - Key/Value pair to identify objects in PODS/Minions
+
+  -> Selectors
+    - Queries against Labels
+
+  (Labels and Selectors are used to group in Kubernetes)
+
+  -> Services
+    - PODS works like a Multi-Tiered application configuration.
+      Each set of PODS that define and implement a service (MySQL,Apache)
+      are defined by the label selector.
+
+KUBERNETES can provide:
+ - Service discovery
+ - Handle routing (Static IP)
+ - Load balancing
+
+YAML
+- Markup Language, helps to define Human-readable files using Key/Value standard
