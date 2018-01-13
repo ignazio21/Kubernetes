@@ -1,0 +1,12 @@
+-> GET NODES
+$man kubectl
+$kubectl get nodes
+
+-> DESCRIBE NODES
+$kubectl describe nodes
+
+-> FORMATTED OUTPUT
+$kubectl get nodes -o jsonpath='{.items[*].status.addresses[?(@.type=="ExternalIP")].address}'
+
+-> GET PODS
+$kubectl get pods

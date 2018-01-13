@@ -1,0 +1,24 @@
+#### CENTOS DOCKERFILE ####
+
+$mkdir Builds && cd Builds
+$mkdir RunAsUser && cd RunAsUser
+$vim Dockerfile
+
+# Dockerfile based on the latest centos 7 image - non-priviledged user entry
+# FROM MUST BE FIRST LINE
+
+
+FROM centos:latest
+MAINTAINER <useremail>@<domain>.com
+
+RUN useradd -ms /bin/bash vagrant
+USER vagrant
+
+$docker build -t centos7/nonroot:v1 .
+
+-> RUN CONTAINER
+-> This will run with the USER defined into the Dockerfile, vagrant
+$docker run -it centos7/nonroot:v1 /bin/bash
+
+-> To RUN the container as ROOT (0 is ROOT in Linux)
+$docker exec -u 0 -it <container> /bin/bash
