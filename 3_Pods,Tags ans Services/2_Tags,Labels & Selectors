@@ -1,0 +1,37 @@
+-> TAG/LABELS IS A KEY/VALUE IN YAML
+  -> USED TO FILTER/REFER TO SPECIFIC PODS
+  EX:
+  - Assign volumes
+  - Run containers
+  - ....
+
+$vi nginx.yaml
+
+# TO ADD
+metadata:
+  name: nginx
+  labels:
+    app: nginx
+...
+
+$kubectl create -f ./nginx.yaml
+
+$kubectl get pods -l app=nginx
+
+$cp nginx.yaml nginx2.yaml
+
+$vi nginx2.yaml
+
+# TO ADD
+metadata:
+  name: nginx2
+  labels:
+    app: nginx2
+spec:
+  containers:
+  - name: nginx2
+...
+
+$kubectl create -f ./nginx2.yaml
+
+$kubectl get pods -l app=nginx2

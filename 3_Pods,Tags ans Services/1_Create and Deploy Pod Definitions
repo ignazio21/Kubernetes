@@ -1,0 +1,66 @@
+-> KUBERNETES Is Responsible of keeping our DESIRED STATE
+  Ex. If a POD/Container fails, KUB will have to re-run/re-create it to reach the Desired state
+
+-> NGINX YAML CONFIGURATION FILE
+
+$vi builds/nginx.yaml
+
+# API VERSION V1/V2 (check for latest)
+apiVersion: v1
+
+# KIND of service/pod that we create
+# Metadata for the POD to create
+# SPEC stands for SPECIFICATION for the POD
+# 1 POD with 1 Container inside, running a specific NGINX version, exposing port 80 internally
+kind: Pod
+metadata:
+  name: nginx
+spec:
+  containers:
+  - name: nginx
+    image: nginx:1.7.9
+    ports:
+    - containerPort: 80
+
+-> TO RUN the YAML FILE
+$kubectl create -f ./nginx.yaml
+
+-> Now there is a POD
+-> To check for it
+$kubectl get pods
+
+-> IN the MINION, check the CONTAINER:
+$docker ps
+
+-> IN the MASTER, troubleshoot the pod:
+$kubectl describe pods
+
+OR
+
+$kubectl describe pod nginx
+
+-> From the CONTROLLER:
+  -> CAN'T access to the NGINX container, since there is no way to connect EXTERNALLY
+
+  -> RUN a BUSY BOX container, to access INTERNALLY:
+  $kubectl run busybox --image=busybox --restart=Never --tty -i --generator=run-pod/v1
+
+  -> Inside the container BUSYBOX:
+  $wget -q0- http://172.17.0.2
+
+  # RECEIVE THE NGINX HTML PAGE
+
+-> TO DELETE THE BUSYBOX POD:
+$kubectl delete pod busybox
+
+
+-> TO MAP/PORT-FORWARD PODS FROM THE MASTER:
+$kubectl port-forward <pod-name> <specific-port>:<container-port>
+
+# & gives the port number
+EX:
+1) Forward to a specific port:
+$kubectl port-forward nginx-v1 8080:80 &
+
+2) Random forward-port:
+$kubectl port-forward nginx-v1 :80 &
